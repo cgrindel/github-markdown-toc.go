@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+# gazelle:prefix github.com/ekalinin/github-markdown-toc.go
+gazelle(
+    name = "gazelle",
+    args = [
+        "-exclude=bazel-github-markdown-toc.go",
+    ],
+)
+
+go_library(
+    name = "github-markdown-toc_go",
+    srcs = [
+        "ghdoc.go",
+        "internals.go",
+    ],
+    importpath = "github.com/ekalinin/github-markdown-toc.go",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "github-markdown-toc_go_test",
+    srcs = [
+        "ghdoc_test.go",
+        "internal_test.go",
+    ],
+    embed = [":github-markdown-toc_go"],
+)
